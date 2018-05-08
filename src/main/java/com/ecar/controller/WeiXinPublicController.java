@@ -40,18 +40,24 @@ public class WeiXinPublicController {
 
             String openId = weChatUser.getOpenid();
             String headImg = weChatUser.getHeadImgUrl();
+            String nickName = weChatUser.getNickName();
             //存放cookie
-            Cookie openIdCookie = new Cookie("openId",openId);
-            Cookie headImageUrlCookie = new Cookie("headImageUrl",headImg);
-            openIdCookie.setPath("/");
-            openIdCookie.setMaxAge(60*60*2);
-            headImageUrlCookie.setPath("/");
-            headImageUrlCookie.setMaxAge(60*60*2);
+            Cookie openIdCookie = cookie("openId",openId);
+            Cookie headImageUrlCookie = cookie("headImageUrl",headImg);
+            Cookie nickCookie = cookie("nickName",nickName);
             response.addCookie(openIdCookie);
             response.addCookie(headImageUrlCookie);
+            response.addCookie(nickCookie);
             logger.info("code值{}",code);
 
         }
+    }
+
+    public Cookie cookie(String name,String value){
+        Cookie cookie = new Cookie(name,value);
+        cookie.setPath("/");
+        cookie.setMaxAge(60*60*2);
+        return cookie;
     }
 
 
