@@ -1,6 +1,7 @@
 package com.ecar.dao;
 
-import com.ecar.util.weiXinPublic.WeChatUser;
+import com.ecar.util.weiXinPublic.WeChatPublicUser;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -12,14 +13,15 @@ import org.springframework.stereotype.Repository;
   * @return:
   */
 @Repository
+@Mapper
 public interface WeiXinPublic {
 
     //tb_wechat_user中取得openId 查看是否有该用户
-    WeChatUser getWeChatUserByOpenid(@Param("openId") String openid);
+    WeChatPublicUser getWeChatUserByOpenid(@Param("openId") String openid);
 
     //更新tb_weChat_user表
-    WeChatUser updateWechatUser(WeChatUser weChatUser);
+    int updateWechatUser(WeChatPublicUser weChatUser);
 
     //插入到tb_weChat_user
-    WeChatUser insertWeChatUser(WeChatUser weChatUser);
+    int insertWeChatUser(WeChatPublicUser weChatUser);
 }

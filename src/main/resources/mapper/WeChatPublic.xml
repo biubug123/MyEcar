@@ -4,20 +4,23 @@
 <mapper namespace="com.ecar.dao.WeiXinPublic">
 
 
-    <select id="getWeChatUserByOpenid">
-        SELECT "openid", "nickName", "sex", "city", "province", "contry", "headImgUrl", "privilege", "unionid", "accessToken", "expiresIn", "refreshToken", "accessTokenTime", "refreshTokenTime", "firstLoginTime"
-        FROM tb_wechat_user WHERE openid = #{openid}
+
+
+    <select id="getWeChatUserByOpenid" resultType="com.ecar.util.weiXinPublic.WeChatPublicUser">
+        SELECT "openid", "nickName", "sex", "city", "province","headImgUrl", "privilege", "unionid", "accessToken", "expiresIn", "refreshToken", "accessTokenTime", "refreshTokenTime"
+        FROM tb_wechat_user WHERE "openid" = #{openId}
     </select>
 
     <update id="updateWechatUser">
         UPDATE tb_wechat_user SET accessToken = #{accessToken},expiresIn = #{expiresIn} , refreshToken =#{refreshToken} ,refreshTokenTime =#{refreshTokenTime} ,accessToken=#{accessToken},
-        accessTokenTime=#{accessTokenTime},nickName=#{nickName},headImgUrl =#{headImgUrl}
+        accessTokenTime=#{accessTokenTime},nickName=#{nickName},headImgUrl = #{headImgUrl}
+        WHERE "openid" = #{openid}
     </update>
 
 
     <insert id="insertWeChatUser">
-        INSERT INTO tb_wechat_user ("openid", "nickName", "sex", "city", "province", "contry", "headImgUrl", "privilege", "unionid", "accessToken", "expiresIn", "refreshToken", "accessTokenTime", "refreshTokenTime", "firstLoginTime")
-        VALUES (#{openid},#{nickName},#{sex},#{city},#{province},#{contry},#{headImgUrl},#{privilege},#{unionid},#{accessToken},#{expiresIn},#{refreshToken},#{accessTokenTime},#{refreshTokenTime},#{firstLoginTime})
+        INSERT INTO tb_wechat_user ("openid", "nickName", "sex", "city", "province", "contry", "headImgUrl", "privilege", "unionid", "accessToken", "expiresIn", "refreshToken", "accessTokenTime", "refreshTokenTime")
+        VALUES (#{openid},#{nickName},#{sex},#{city},#{province},#{contry},#{headImgUrl},#{privilege},#{unionid},#{accessToken},#{expiresIn},#{refreshToken},#{accessTokenTime},#{refreshTokenTime})
     </insert>
 
 

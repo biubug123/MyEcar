@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ecar.dao.WeiXinPublic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,12 +17,13 @@ import java.util.Map;
  * 微信第三方登录工具类 未测试
  * Created by huangpeiquan on 17/1/23.
  */
+@Component
 public class WechatUtil {
     private final static String APPID="wxb1801e7c577d6a01";
     private final static String SECRET="a6be415999d5c505b9583f1f184befcc";
 
     @Autowired
-    public static WeiXinPublic weiXinPublic;
+    public WeiXinPublic weiXinPublic;
 
 
 
@@ -41,10 +43,10 @@ public class WechatUtil {
      * @param refreshToken
      * @return
      */
-    public static WeChatUser refreshAccessToken(String refreshToken){
+    public  WeChatPublicUser refreshAccessToken(String refreshToken){
         String url = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=" + APPID + "&grant_type=refresh_token&refresh_token="
                 + refreshToken;
-        WeChatUser wechatUser = getWechatUser(url);
+        WeChatPublicUser wechatUser = getWechatUser(url);
         return wechatUser;
     }
 
@@ -53,17 +55,17 @@ public class WechatUtil {
      * @param code
      * @return
      */
-    public static WeChatUser getAccessToken(String code) {
+    public  WeChatPublicUser getAccessToken(String code) {
         final String URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="+
                 APPID+"&secret="+SECRET+"&code="+code+"&grant_type=authorization_code";
-        System.out.println("执行到 getAccessToken");
-        WeChatUser wechatUser = getWechatUser(URL);
+        System.out.println("getAccessToken");
+        WeChatPublicUser wechatUser = getWechatUser(URL);
         return wechatUser;
     }
 
 
-    private static WeChatUser getWechatUser(String URL) {
-        WeChatUser wechatUser = new WeChatUser();
+    private  WeChatPublicUser getWechatUser(String URL) {
+        WeChatPublicUser wechatUser = new WeChatPublicUser();
         JSONObject jsonObject = getJsonObject(URL);
         System.out.println("执行到 getWechatUser");
         System.out.println("jsonObject:"+jsonObject);
@@ -96,7 +98,9 @@ public class WechatUtil {
                     //wechatUser.setUnionid(userInfoMap.get("unionid").toString());
                 }
                 //tb_wechat_user中取得openId 查看是否有该用户
-                if(weiXinPublic.getWeChatUserByOpenid(wechatUser.getOpenid())!=null){
+                WeChatPublicUser weChatPublicUser = weiXinPublic.getWeChatUserByOpenid(wechatUser.getOpenid());
+                System.out.println("weChatPublicUserZI:"+weChatPublicUser);
+                if(weChatPublicUser != null){
                     System.out.println("执行到 getWechatUserInof3333");
                     //更新tb_wechat_user用户
                     weiXinPublic.updateWechatUser(wechatUser);
