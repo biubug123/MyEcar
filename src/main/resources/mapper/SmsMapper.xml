@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ecar.dao.SmsDAO">
+    <select id="getSmsCodeByPhone" resultType="com.ecar.entity.Smscode">
+        SELECT "phoneNumber", "code", "lastTime"
+        FROM tb_smscode
+        WHERE "phoneNumber" = '${phone}'
+    </select>
+
+    <update id="updateSmscode">
+        update tb_smscode
+        SET "code" = '${code}', "lastTime" = '${lastTime}'
+        WHERE "phoneNumber" = '${phone}'
+    </update>
+
+    <insert id="insertSmscode">
+        INSERT INTO tb_smscode
+        ("phoneNumber", "code", "lastTime")
+        VALUES ('${phone}', '${code}', '${lastTime}')
+    </insert>
+
+</mapper>

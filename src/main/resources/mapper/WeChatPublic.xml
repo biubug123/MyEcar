@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ecar.dao.WeiXinPublic">
+
+
+    <select id="getWeChatUserByOpenid">
+        SELECT "openid", "nickName", "sex", "city", "province", "contry", "headImgUrl", "privilege", "unionid", "accessToken", "expiresIn", "refreshToken", "accessTokenTime", "refreshTokenTime", "firstLoginTime"
+        FROM tb_wechat_user WHERE openid = #{openid}
+    </select>
+
+    <update id="updateWechatUser">
+        UPDATE tb_wechat_user SET accessToken = #{accessToken},expiresIn = #{expiresIn} , refreshToken =#{refreshToken} ,refreshTokenTime =#{refreshTokenTime} ,accessToken=#{accessToken},
+        accessTokenTime=#{accessTokenTime},nickName=#{nickName},headImgUrl =#{headImgUrl}
+    </update>
+
+
+    <insert id="insertWeChatUser">
+        INSERT INTO tb_wechat_user ("openid", "nickName", "sex", "city", "province", "contry", "headImgUrl", "privilege", "unionid", "accessToken", "expiresIn", "refreshToken", "accessTokenTime", "refreshTokenTime", "firstLoginTime")
+        VALUES (#{openid},#{nickName},#{sex},#{city},#{province},#{contry},#{headImgUrl},#{privilege},#{unionid},#{accessToken},#{expiresIn},#{refreshToken},#{accessTokenTime},#{refreshTokenTime},#{firstLoginTime})
+    </insert>
+
+
+</mapper>

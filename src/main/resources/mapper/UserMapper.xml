@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ecar.dao.UserDAO">
+    <resultMap id="collectRecord" type="com.ecar.entity.Collect">
+        <id property="cid" jdbcType="VARCHAR" column="cid" />
+        <result property="vid" jdbcType="VARCHAR" column="vid" />
+        <result property="phone" jdbcType="VARCHAR" column="phone"/>
+        <result property="cdate" jdbcType="BIGINT" column="cdate"/>
+        <association property="videos" javaType="com.ecar.entity.Videos">
+            <id property="uuid" jdbcType="VARCHAR" column="uuid"/>
+            <result property="fileName" jdbcType="VARCHAR" column="fileName"/>
+            <result property="fileRandomName" jdbcType="VARCHAR" column="fileRandomName"/>
+            <result property="sourcePath" jdbcType="VARCHAR" column="sourcePath"/>
+            <result property="publishDate" jdbcType="BIGINT" column="publishDate"/>
+            <result property="bigType" jdbcType="VARCHAR" column="bigType"/>
+            <result property="smallType" jdbcType="VARCHAR" column="smallType"/>
+            <result property="viewCount" jdbcType="INTEGER" column="viewCount"/>
+            <result property="cost" jdbcType="INTEGER" column="cost"/>
+            <result property="state" jdbcType="INTEGER" column="state"/>
+            <result property="videoUrl" jdbcType="VARCHAR" column="videoUrl"/>
+            <result property="apiid" jdbcType="INTEGER" column="apiId"/>
+            <result property="imageUrl" jdbcType="VARCHAR" column="imageUrl"/>
+            <result property="publisher" jdbcType="VARCHAR" column="publisher"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="record" type="com.ecar.entity.Record">
+        <id property="uuid" jdbcType="VARCHAR" column="uuid" />
+        <result property="phone" jdbcType="VARCHAR" column="phone" />
+        <result property="videoid" jdbcType="VARCHAR" column="videoId" />
+        <result property="lastdate" jdbcType="BIGINT" column="lastDate"/>
+        <result property="collectdate" jdbcType="BIGINT" column="collectDate"/>
+        <result property="iscollect" jdbcType="INTEGER" column="isCollect" />
+        <association property="videos" javaType="com.ecar.entity.Videos">
+            <id property="uuid" jdbcType="VARCHAR" column="uuid"/>
+            <result property="fileName" jdbcType="VARCHAR" column="fileName"/>
+            <result property="fileRandomName" jdbcType="VARCHAR" column="fileRandomName"/>
+            <result property="sourcePath" jdbcType="VARCHAR" column="sourcePath"/>
+            <result property="publishDate" jdbcType="BIGINT" column="publishDate"/>
+            <result property="bigType" jdbcType="VARCHAR" column="bigType"/>
+            <result property="smallType" jdbcType="VARCHAR" column="smallType"/>
+            <result property="viewCount" jdbcType="INTEGER" column="viewCount"/>
+            <result property="cost" jdbcType="INTEGER" column="cost"/>
+            <result property="state" jdbcType="INTEGER" column="state"/>
+            <result property="videoUrl" jdbcType="VARCHAR" column="videoUrl"/>
+            <result property="apiid" jdbcType="INTEGER" column="apiId"/>
+            <result property="imageUrl" jdbcType="VARCHAR" column="imageUrl"/>
+            <result property="publisher" jdbcType="VARCHAR" column="publisher"/>
+        </association>
+    </resultMap>
+
+    <select id="getUser" resultType="User">
+        SELECT "uid", "userPhone", "password","openid"
+        FROM tb_user
+        WHERE "userPhone" = '${phone}'
+        AND "password" = '2323'
+    </select>
+
+    <insert id="insertVideoRecord">
+        INSERT INTO tb_record
+        ("rid", "userPhone", "vid", "collectDate", "isCollect")
+        VALUES ('${uuid}', '${phone}', '${videoId}', '${collectDate}', 1)
+    </insert>
+
+    <update id="updateVideoRecord">
+        UPDATE tb_record
+        SET "isCollect" = '${isCollect}',"collectDate" = '${collectDate}'
+        WHERE "phone" = '${phone}'
+        AND "vid" = '${videoId}'
+    </update>
+
+    <select id="getRecord" resultType="Record">
+        SELECT "rid","isCollect"
+        FROM tb_record
+        WHERE phone = '${phone}'
+        AND "vid" = '${videoId}'
+    </select>
+
+    <select id="listCollectByPhone" parameterType="String" resultMap="collectRecord">
+        SELECT c."vid", c."cdate", v."fileName", v."bigType", v."imageUrl", v."publisher"
+        FROM tb_collect c
+        INNER JOIN tb_videos v ON c."vid" = v."vid"
+        WHERE c."phone" = '${phone}'
+    </select>
+
+    <select id="listRecordByPhone" parameterType="String" resultMap="record">
+        SELECT v."vid", v."fileName", v."bigType", v."publisher",r."lastDate"
+        FROM tb_record r
+        INNER JOIN tb_videos v ON r."rid" = v."vid"
+        WHERE phone = '${phone}'
+    </select>
+
+    <insert id="insertRecord">
+        INSERT INTO tb_record
+        ("rid", "phone", "vid", "lastDate")
+        VALUES ('${uuid}', '${phone}', '${videoId}', '${date}')
+    </insert>
+
+    <update id="updateRecord">
+        UPDATE tb_record
+        SET "lastDate" = '${date}'
+        WHERE "vid" = '${videoId}'
+        AND "phone" = '${phone}'
+    </update>
+
+</mapper>

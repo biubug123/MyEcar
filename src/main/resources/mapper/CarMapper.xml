@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ecar.dao.CarDAO">
+
+
+  <select id="listCarByBrandId" resultType="com.ecar.entity.Car" parameterType="String">
+    SELECT "cid", "carName", "brandId", "years","emission","price"
+    FROM tb_car
+    WHERE "brandId" = '${brandId}'
+  </select>
+
+  <select id="getCarByCid" resultType="com.ecar.entity.Car">
+    SELECT "cid", "carName", "brandId", "years","emission","price"
+    FROM tb_car
+    WHERE "cid" = '${cid}'
+  </select>
+
+</mapper>

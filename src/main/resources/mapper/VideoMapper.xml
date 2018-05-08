@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ecar.dao.VideosDAO">
+
+  <select id="listVideo" resultType="Videos">
+    SELECT "vid","fileName","bigType","videoUrl","publishDate", "imageUrl"
+    FROM tb_videos
+  </select>
+
+  <select id="listVideoByType" resultType="Videos" parameterType="String" >
+    SELECT "vid","fileName","bigType","videoUrl","publishDate", "imageUrl"
+    FROM tb_videos
+    WHERE "bigType" = '${type}'
+  </select>
+
+  <select id="getVideosByUUID" resultType="Videos" parameterType="String">
+    SELECT "videoUrl","fileName"
+    FROM tb_videos
+    WHERE "vid" = '${uuid}'
+  </select>
+
+  <select id="listVideosByKeyword" resultType="Videos" parameterType="String">
+    SELECT "vid","fileName","bigType","videoUrl","publishDate"
+    FROM tb_videos
+    WHERE "fileName" LIKE '%${keyword}%'
+  </select>
+
+  <select id="listVideoPage" resultType="Videos">
+    SELECT "vid","fileName","bigType","videoUrl","publishDate"
+    FROM tb_videos
+    WHERE "bigType" = '${type}'
+    LIMIT '${size}' offset '${startRow}'
+  </select>
+
+</mapper>
